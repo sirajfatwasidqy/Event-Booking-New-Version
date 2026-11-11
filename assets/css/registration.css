@@ -1,0 +1,31 @@
+/* registration.css — Registration stepper, quantity, callouts, select, success screens */
+/* stepper */
+.steps{display:flex;gap:12px;margin-bottom:30px}
+.steps div{flex:1}
+.steps i{display:block;height:6px;border-radius:99px;background:var(--rose-2);margin-bottom:10px}
+.steps .on i{background:var(--bur)}
+.steps span{font-size:13px;font-weight:700;color:#8a7a80}
+.steps .on span{color:var(--bur)}
+.qty{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:6px}
+.qty button{width:44px;height:44px;border-radius:12px;background:var(--bur);color:#fff;display:grid;place-items:center}
+.qty button:hover{background:var(--bur-d)}
+.qty button[disabled]{opacity:.35;cursor:not-allowed}
+.qty output{min-width:64px;text-align:center;font-weight:800;font-size:20px}
+.callout{display:flex;gap:14px;align-items:flex-start;padding:16px 18px;border-radius:16px;background:var(--rose);border:1px solid var(--line);font-size:14px;color:#3d3236}
+.callout svg.i{color:var(--bur);margin-top:2px}
+.req{padding:16px 18px;border-radius:16px;background:#fff;border:1px solid var(--line);font-size:14px}
+.req b{display:block;margin-bottom:2px}
+.terms{padding:18px;border-radius:16px;border:1.5px solid var(--line);background:#fff}
+.terms.bad{border-color:var(--bad)}
+select.sel{appearance:none;background:none}
+.sel-wrap{position:relative;flex:1;height:100%;display:flex;align-items:center}
+.sel-wrap svg.i{position:absolute;right:6px;pointer-events:none;color:var(--bur)}
+
+/* success */
+.succ{text-align:center;margin-bottom:28px}
+.succ .ring{width:104px;height:104px;border-radius:50%;background:rgba(22,163,74,.14);display:grid;place-items:center;margin:0 auto 18px}
+.succ .disc{width:76px;height:76px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+.succ .disc svg.i{width:38px;height:38px;stroke-width:3}
+@keyframes pop{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+.succ h1{font-size:34px;font-weight:800}
+.succ p{color:#6a5a60;max-width:560px;margin:8px auto 0}

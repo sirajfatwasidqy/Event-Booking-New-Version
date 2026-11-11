@@ -1,0 +1,18 @@
+/* overlays.css — Modal dialog and toast notifications */
+/* modal / toast */
+.ov{position:fixed;inset:0;background:rgba(37,37,37,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;backdrop-filter:blur(3px)}
+.ov.open{display:flex}
+.mdl{background:#fff;border-radius:26px;max-width:480px;width:100%;padding:32px;box-shadow:0 30px 70px rgba(0,0,0,.35);animation:pop2 .25s ease-out;max-height:92vh;overflow:auto}
+.mdl.lg{max-width:560px}
+@keyframes pop2{from{transform:translateY(16px) scale(.97);opacity:0}to{transform:none;opacity:1}}
+.mdl h3{font-size:22px;font-weight:800;margin-bottom:8px}
+.mdl p{color:#51464a;margin-bottom:22px}
+.mdl .acts .btn{min-width:0}
+.mdl .qrbig{display:grid;place-items:center;margin:6px 0 18px}
+.mdl .qrbig .qr-box svg.q{width:260px;height:260px}
+.toasts{position:fixed;right:28px;bottom:28px;z-index:200;display:flex;flex-direction:column;gap:10px}
+.toast{background:var(--chr);color:#fff;padding:14px 20px;border-radius:14px;font-weight:600;font-size:14.5px;box-shadow:0 12px 30px rgba(0,0,0,.3);display:flex;gap:10px;align-items:center;animation:pop2 .25s;max-width:380px}
+.toast.ok{background:var(--ok)}.toast.bad{background:var(--bad)}
+.toast svg.i{width:18px;height:18px}
+.sess-li{display:flex;gap:14px;align-items:center;padding:14px 0}
+.sess-li .ic{width:46px;height:46px;border-radius:14px;background:var(--rose);color:var(--bur);display:grid;place-items:center}

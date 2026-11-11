@@ -1,0 +1,363 @@
+/* =====================================================================
+   motion.css — animation layer for Event Booking (PT Duta Abadi Primantara)
+
+   Rules this file follows:
+   • It never changes layout, size, spacing, colour, font or content.
+   • Motion uses only transform / translate / scale / opacity / box-shadow,
+     so nothing can shift the layout (no width/height/margin/top/left).
+   • Entrance motion uses the individual `translate` / `scale` properties,
+     so it never fights the original `transform`-based hover rules.
+   • Everything is switched off for prefers-reduced-motion users.
+   ===================================================================== */
+
+:root{
+  --fx-ease:cubic-bezier(.22,1,.36,1);
+  --fx-spring:cubic-bezier(.34,1.56,.64,1);
+  --fx-soft:cubic-bezier(.4,0,.2,1);
+}
+
+::selection{background:rgba(100,30,53,.18)}
+
+/* ------------------------------------------------------------------
+   1. Animated background (fixed, behind all content, never blocks input)
+   ------------------------------------------------------------------ */
+.fx-bg{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;contain:strict}
+.fx-par{position:absolute;inset:-6%;will-change:translate}
+.fx-orb{position:absolute;border-radius:50%;will-change:transform;opacity:.9}
+.fx-orb.o1{width:62vmax;height:62vmax;left:-18vmax;top:-22vmax;
+  background:radial-gradient(circle at 50% 50%,rgba(100,30,53,.16) 0%,rgba(100,30,53,.07) 38%,transparent 68%);
+  animation:fx-drift-a 38s var(--fx-soft) infinite alternate}
+.fx-orb.o2{width:56vmax;height:56vmax;right:-20vmax;top:6vmax;
+  background:radial-gradient(circle at 50% 50%,rgba(200,110,140,.20) 0%,rgba(200,110,140,.08) 40%,transparent 68%);
+  animation:fx-drift-b 46s var(--fx-soft) infinite alternate}
+.fx-orb.o3{width:58vmax;height:58vmax;left:8vmax;bottom:-30vmax;
+  background:radial-gradient(circle at 50% 50%,rgba(110,45,67,.15) 0%,rgba(110,45,67,.06) 40%,transparent 68%);
+  animation:fx-drift-c 52s var(--fx-soft) infinite alternate}
+.fx-orb.o4{width:38vmax;height:38vmax;right:12vmax;bottom:-14vmax;
+  background:radial-gradient(circle at 50% 50%,rgba(255,196,214,.45) 0%,rgba(255,196,214,.16) 40%,transparent 70%);
+  animation:fx-drift-d 34s var(--fx-soft) infinite alternate}
+.fx-cv{position:absolute;inset:0;width:100%;height:100%;display:block}
+.fx-sheen{position:absolute;inset:-30%;
+  background:conic-gradient(from 0deg at 50% 50%,transparent 0deg,rgba(255,255,255,.34) 50deg,transparent 110deg,transparent 200deg,rgba(255,225,235,.26) 250deg,transparent 310deg);
+  animation:fx-spin 90s linear infinite;opacity:.55;will-change:transform}
+
+@keyframes fx-drift-a{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(16vmax,10vmax,0) scale(1.12)}100%{transform:translate3d(6vmax,22vmax,0) scale(.96)}}
+@keyframes fx-drift-b{0%{transform:translate3d(0,0,0) scale(1.05)}50%{transform:translate3d(-18vmax,12vmax,0) scale(.94)}100%{transform:translate3d(-8vmax,-6vmax,0) scale(1.14)}}
+@keyframes fx-drift-c{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(20vmax,-12vmax,0) scale(1.1)}100%{transform:translate3d(34vmax,-4vmax,0) scale(.92)}}
+@keyframes fx-drift-d{0%{transform:translate3d(0,0,0) scale(.95)}50%{transform:translate3d(-14vmax,-10vmax,0) scale(1.12)}100%{transform:translate3d(-26vmax,4vmax,0) scale(1)}}
+@keyframes fx-spin{to{transform:rotate(360deg)}}
+
+/* multi-page: the header and bottom bar slide in on the first page of a visit only (fx-nav is set by fx-boot.js on later pages) */
+.fx-nav .hdr,.fx-nav .bnav{animation:none}
+
+/* first paint: the app fades in once instead of popping */
+#app{animation:fx-boot .5s var(--fx-ease) backwards}
+@keyframes fx-boot{from{opacity:0}to{opacity:1}}
+
+/* ------------------------------------------------------------------
+   2. Header / navigation
+   ------------------------------------------------------------------ */
+.hdr{transition:box-shadow .4s var(--fx-ease);animation:fx-hdr-in .8s var(--fx-ease) backwards}
+.hdr.fx-scrolled{box-shadow:0 10px 30px -14px rgba(37,37,37,.22)}
+.hdr::after{content:"";position:absolute;left:0;bottom:-1px;width:100%;height:2px;pointer-events:none;
+  background:linear-gradient(90deg,var(--bur),#c9748f);transform-origin:0 50%;transform:scaleX(var(--fx-p,0));will-change:transform}
+@keyframes fx-hdr-in{from{translate:0 -100%;opacity:0}to{translate:0 0;opacity:1}}
+
+.brand img{transition:scale .5s var(--fx-spring)}
+.brand:hover img{scale:1.06}
+.brand:active img{scale:.97}
+
+.nav a{transition:background-color .3s var(--fx-ease),color .3s var(--fx-ease),box-shadow .4s var(--fx-ease),scale .25s var(--fx-ease)}
+.nav a svg.i{transition:translate .35s var(--fx-spring),scale .35s var(--fx-spring)}
+.nav a:hover svg.i{translate:0 -2px;scale:1.14}
+.nav a:active{scale:.96}
+.nav a.fx-pop{animation:fx-pill .55s var(--fx-spring)}
+@keyframes fx-pill{from{scale:.82;opacity:.4}to{scale:1;opacity:1}}
+
+.hsearch{transition:border-color .3s var(--fx-ease),background-color .3s var(--fx-ease),box-shadow .4s var(--fx-ease)}
+.hsearch svg.i{transition:scale .35s var(--fx-spring)}
+.hsearch:focus-within svg.i{scale:1.15}
+
+.icon-btn{transition:background-color .3s var(--fx-ease),scale .3s var(--fx-spring),box-shadow .3s}
+.icon-btn:hover{scale:1.07;box-shadow:0 6px 16px -6px rgba(100,30,53,.35)}
+.icon-btn:active{scale:.93}
+.icon-btn:hover svg.i{animation:fx-ring .8s var(--fx-ease)}
+@keyframes fx-ring{0%,100%{rotate:0deg}15%{rotate:14deg}35%{rotate:-12deg}55%{rotate:8deg}75%{rotate:-5deg}}
+.dot{animation:fx-ping 2.2s ease-out infinite}
+@keyframes fx-ping{0%{box-shadow:0 0 0 0 rgba(180,35,60,.55)}70%{box-shadow:0 0 0 9px rgba(180,35,60,0)}100%{box-shadow:0 0 0 0 rgba(180,35,60,0)}}
+
+.acct-btn{transition:background-color .3s var(--fx-ease),border-color .3s,scale .25s var(--fx-ease),box-shadow .3s}
+.acct-btn:hover{background:var(--rose-2);box-shadow:0 6px 16px -8px rgba(100,30,53,.4)}
+.acct-btn:active{scale:.97}
+.avatar{transition:scale .4s var(--fx-spring)}
+.acct-btn:hover .avatar{scale:1.08}
+.menu{transform-origin:100% 0}
+.menu.open{animation:fx-menu .32s var(--fx-ease)}
+@keyframes fx-menu{from{opacity:0;transform:translateY(-8px) scale(.97)}to{opacity:1;transform:none}}
+.menu a,.menu button{transition:background-color .25s var(--fx-ease),translate .3s var(--fx-ease)}
+.menu a:hover,.menu button:hover{translate:3px 0}
+.menu a svg.i,.menu button svg.i{transition:scale .3s var(--fx-spring)}
+.menu a:hover svg.i,.menu button:hover svg.i{scale:1.15}
+.menu.open>*{animation:fx-rise-sm .4s var(--fx-ease) backwards}
+.menu.open>*:nth-child(2){animation-delay:.03s}.menu.open>*:nth-child(3){animation-delay:.06s}
+.menu.open>*:nth-child(4){animation-delay:.09s}.menu.open>*:nth-child(5){animation-delay:.12s}
+.menu.open>*:nth-child(6){animation-delay:.15s}.menu.open>*:nth-child(n+7){animation-delay:.18s}
+
+/* mobile bottom nav */
+.bnav{animation:fx-bnav-in .8s .15s var(--fx-ease) backwards}
+@keyframes fx-bnav-in{from{translate:0 140%}to{translate:0 0}}
+.bnav a{transition:background-color .3s var(--fx-ease),color .3s var(--fx-ease),scale .2s var(--fx-ease)}
+.bnav a:active{scale:.93}
+.bnav a.fx-pop svg.i{animation:fx-bounce .55s var(--fx-spring)}
+@keyframes fx-bounce{0%{translate:0 0}35%{translate:0 -6px}65%{translate:0 1px}100%{translate:0 0}}
+
+/* ------------------------------------------------------------------
+   3. Buttons, chips, links
+   ------------------------------------------------------------------ */
+.btn{position:relative;overflow:hidden;isolation:isolate;
+  transition:background-color .3s var(--fx-ease),color .3s,box-shadow .4s var(--fx-ease),translate .3s var(--fx-ease),scale .2s var(--fx-ease),opacity .2s}
+.btn svg.i{transition:translate .35s var(--fx-spring),scale .35s var(--fx-spring)}
+.btn:not([disabled]):hover{translate:0 -2px}
+.btn:not([disabled]):hover svg.i{translate:2px 0}
+.btn:not([disabled]):active{translate:0 0;scale:.97;transition-duration:.12s}
+.btn-o:not([disabled]):hover{box-shadow:inset 0 0 0 1.5px var(--bur),0 8px 18px -8px rgba(100,30,53,.35)}
+.btn-s:not([disabled]):hover{box-shadow:0 8px 18px -10px rgba(100,30,53,.35)}
+.btn-d:not([disabled]):hover{box-shadow:inset 0 0 0 1.5px rgba(180,35,60,.5),0 8px 18px -10px rgba(180,35,60,.4)}
+.btn-g:not([disabled]):hover{box-shadow:0 8px 18px -8px rgba(22,163,74,.5)}
+/* light sweep on filled buttons */
+.btn-p::after,.btn-w::after,.btn-g::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.26) 50%,transparent 70%);
+  translate:-130% 0;transition:translate .8s var(--fx-ease)}
+.btn-w::after{background:linear-gradient(105deg,transparent 30%,rgba(100,30,53,.09) 50%,transparent 70%)}
+.btn-p:not([disabled]):hover::after,.btn-w:not([disabled]):hover::after,.btn-g:not([disabled]):hover::after{translate:130% 0}
+.btn[disabled]{transition:opacity .3s}
+
+.round-btn{transition:background-color .3s var(--fx-ease),scale .3s var(--fx-spring),box-shadow .3s}
+.round-btn:hover{scale:1.1;box-shadow:0 8px 18px -6px rgba(100,30,53,.5)}
+.round-btn:active{scale:.92}
+.round-btn svg.i{transition:translate .3s var(--fx-spring)}
+.round-btn:hover svg.i{translate:1px 0}
+
+.chip-f{transition:background-color .35s var(--fx-ease),border-color .3s,color .3s,translate .25s var(--fx-ease),scale .2s var(--fx-ease),box-shadow .35s}
+.chip-f:hover{translate:0 -2px;box-shadow:0 8px 16px -10px rgba(100,30,53,.45)}
+.chip-f:active{scale:.95;translate:0 0}
+.chip-f.on{box-shadow:0 8px 18px -8px rgba(100,30,53,.55)}
+.chip{transition:translate .3s var(--fx-ease),box-shadow .3s}
+.chip:hover{translate:0 -1px}
+
+.link svg.i{transition:translate .3s var(--fx-spring)}
+.link:hover svg.i{translate:3px 0}
+.link{transition:opacity .2s}
+.link:active{opacity:.7}
+.crumbs a{transition:color .25s var(--fx-ease)}
+
+.tab{transition:background-color .35s var(--fx-ease),color .3s,scale .2s var(--fx-ease)}
+.tab:not(.on):hover{background:var(--rose)}
+.tab:active{scale:.95}
+.pager button{transition:background-color .3s var(--fx-ease),color .3s,translate .25s var(--fx-ease),scale .2s,box-shadow .3s}
+.pager button:hover{translate:0 -2px;box-shadow:0 8px 14px -8px rgba(100,30,53,.5)}
+.pager button:active{scale:.93}
+
+/* footer links: animated underline (inline links cannot be translated) */
+.ftr ul a{background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .4s var(--fx-ease),opacity .2s}
+.ftr ul a:hover{background-size:100% 1px;text-decoration:none}
+.ftr .logo-pill{transition:scale .5s var(--fx-spring)}
+.ftr .logo-pill:hover{scale:1.05}
+.demo-btn{transition:opacity .25s}
+.demo-btn:hover{opacity:1}
+
+/* ------------------------------------------------------------------
+   4. Cards, images, lists
+   ------------------------------------------------------------------ */
+.ev-card,.pcard,.ev-row,.tk,.bk,.nt,.card-link{
+  transition:transform .55s var(--fx-ease),box-shadow .55s var(--fx-ease),border-color .35s var(--fx-ease)!important}
+.ev-row:hover,.tk:hover,.bk:hover,.nt:hover,.card-link:hover{transform:translateY(-3px)}
+.card-link:hover{box-shadow:var(--sh);border-color:#d6c3c9}
+.nt:active,.card-link:active{transform:translateY(-1px)}
+.ev-card:active,.pcard:active,.ev-row:active,.tk:active{transform:translateY(-1px)}
+
+.ev-img img,.pimg img,.ev-row .th img,.bk .im img{transition:scale .9s var(--fx-ease)}
+.ev-card:hover .ev-img img,.pcard:hover .pimg img,.ev-row:hover .th img,.bk:hover .im img{scale:1.045}
+.pimg .lg{transition:scale .5s var(--fx-spring)}
+.pcard:hover .pimg .lg{scale:1.08}
+.card-link .ic{transition:scale .45s var(--fx-spring),rotate .45s var(--fx-spring)}
+.card-link:hover .ic{scale:1.1;rotate:-4deg}
+
+.sched>div,.hl>div,.stat,.act,.info-row{transition:translate .4s var(--fx-ease),box-shadow .4s var(--fx-ease),border-color .3s}
+.sched>div:hover,.hl>div:hover{translate:0 -3px;box-shadow:var(--sh-s);border-color:#d6c3c9}
+.stat:hover{box-shadow:var(--sh)}
+.info-row .ic,.menu-list .ic,.nt .ic,.sess-li .ic{transition:scale .4s var(--fx-spring),background-color .3s}
+.info-row:hover .ic,.menu-list a:hover .ic,.menu-list button:hover .ic,.nt:hover .ic{scale:1.08}
+.info-row .ed{transition:background-color .3s var(--fx-ease),scale .3s var(--fx-spring),rotate .35s var(--fx-spring)}
+.info-row .ed:hover{scale:1.1;rotate:-8deg}
+.info-row .ed:active{scale:.92}
+.menu-list a,.menu-list button{transition:translate .35s var(--fx-ease)}
+.menu-list a:hover,.menu-list button:hover{translate:4px 0}
+.menu-list .go{transition:translate .35s var(--fx-spring)}
+.menu-list a:hover .go,.menu-list button:hover .go{translate:4px 0}
+.side a{transition:background-color .3s var(--fx-ease),color .3s,translate .3s var(--fx-ease)}
+.side a:not(.on):hover{translate:3px 0}
+.side a svg.i{transition:scale .35s var(--fx-spring)}
+.side a:hover svg.i{scale:1.12}
+
+.sess{transition:border-color .3s var(--fx-ease),background-color .3s,box-shadow .4s var(--fx-ease),translate .3s var(--fx-ease)}
+.sess:hover{translate:0 -2px;box-shadow:0 8px 18px -12px rgba(100,30,53,.35)}
+.sess:active{translate:0 0}
+.sess.on .rd{animation:fx-pop .5s var(--fx-spring)}
+.sess.on{animation:fx-glow .9s var(--fx-ease)}
+@keyframes fx-glow{from{box-shadow:0 0 0 0 rgba(22,163,74,.35)}to{box-shadow:0 0 0 4px rgba(22,163,74,.1)}}
+
+.gal button,.thumbs button{transition:border-color .3s var(--fx-ease),scale .35s var(--fx-ease),box-shadow .35s}
+.gal button:hover,.thumbs button:hover{scale:1.02;box-shadow:0 10px 20px -12px rgba(0,0,0,.5)}
+.gal button:active,.thumbs button:active{scale:.98}
+.gal button img,.thumbs button img{transition:scale .8s var(--fx-ease)}
+.gal button:hover img,.thumbs button:hover img{scale:1.07}
+
+.act .d,.nt .ud{animation:fx-dot-b 2.6s ease-out infinite}
+.act:first-child .d{animation-duration:2s}
+.nt .ud{animation-duration:2s}
+.st::before{animation:fx-dot 2.4s ease-out infinite}
+@keyframes fx-dot{0%{box-shadow:0 0 0 0 currentColor}60%,100%{box-shadow:0 0 0 6px transparent}}
+@keyframes fx-dot-b{0%{box-shadow:0 0 0 0 rgba(100,30,53,.4)}60%,100%{box-shadow:0 0 0 6px rgba(100,30,53,0)}}
+
+.empty .ring{animation:fx-float 4.5s var(--fx-soft) infinite alternate}
+@keyframes fx-float{from{translate:0 0}to{translate:0 -7px}}
+
+/* decorative circles on burgundy sections drift slowly (shapes/colours unchanged) */
+.hero::before,.auth-l::before,.banner-cta::after,.prof::after,.shield::after,.t-top::after{animation:fx-orbit-a 16s var(--fx-soft) infinite alternate}
+.hero::after,.auth-l::after{animation:fx-orbit-b 20s var(--fx-soft) infinite alternate}
+@keyframes fx-orbit-a{from{translate:0 0;scale:1}to{translate:-26px 20px;scale:1.07}}
+@keyframes fx-orbit-b{from{translate:0 0;scale:1}to{translate:30px -22px;scale:1.09}}
+/* soft light wandering across the large burgundy surfaces */
+.hero,.auth-l,.banner-cta,.prof{
+  background-image:radial-gradient(55% 90% at 18% 12%,rgba(255,255,255,.075),transparent 62%),radial-gradient(48% 80% at 88% 92%,rgba(255,170,200,.10),transparent 62%);
+  background-size:170% 170%;animation:fx-pan 26s var(--fx-soft) infinite alternate}
+@keyframes fx-pan{from{background-position:0% 0%}to{background-position:100% 100%}}
+
+/* ------------------------------------------------------------------
+   5. Forms
+   ------------------------------------------------------------------ */
+.inp{transition:border-color .3s var(--fx-ease),box-shadow .4s var(--fx-ease),background-color .3s}
+.inp:hover{border-color:#cdb3bb}
+.inp:focus-within,.inp.ok,.inp.bad{transition-duration:.3s}
+.inp .ic{transition:background-color .3s var(--fx-ease),color .3s,scale .4s var(--fx-spring)}
+.inp:focus-within .ic{scale:1.07;background:rgba(100,30,53,.1)}
+.fld label{transition:color .3s var(--fx-ease)}
+.fld:focus-within>label{color:var(--bur)}
+.inp.bad{animation:fx-shake .5s var(--fx-ease)}
+@keyframes fx-shake{0%,100%{translate:0 0}18%{translate:-7px 0}36%{translate:6px 0}54%{translate:-4px 0}72%{translate:3px 0}}
+.inp .end{transition:background-color .3s,scale .3s var(--fx-spring)}
+.inp .end:hover{scale:1.1}
+.inp .end:active{scale:.92}
+.inp .end.ok,.inp .end.bad{animation:fx-pop .5s var(--fx-spring)}
+.hint.bad,.hint.ok{animation:fx-rise-sm .35s var(--fx-ease)}
+.terms{transition:border-color .3s var(--fx-ease),box-shadow .3s}
+.terms.bad{animation:fx-shake .5s var(--fx-ease)}
+
+.cb .bx{transition:background-color .25s var(--fx-ease),border-color .25s,box-shadow .3s,scale .3s var(--fx-spring)}
+.cb:hover .bx{border-color:var(--bur);scale:1.06}
+.cb:active .bx{scale:.92}
+.cb input:checked+.bx{animation:fx-pop .45s var(--fx-spring)}
+.cb .bx svg.i{transition:opacity .2s}
+.cb input:checked+.bx svg.i path{stroke-dasharray:40;animation:fx-draw .4s .08s var(--fx-ease) backwards}
+
+.tg{transition:background-color .3s var(--fx-ease)}
+.tg::after{transition:left .35s var(--fx-spring),scale .2s}
+.tg:active::after{scale:1.12}
+
+.qty{transition:box-shadow .3s}
+.qty button{transition:background-color .3s var(--fx-ease),scale .25s var(--fx-spring),opacity .2s}
+.qty button:not([disabled]):hover{scale:1.08}
+.qty button:not([disabled]):active{scale:.9}
+.qty output.fx-bump,.kv .tot span.fx-bump{animation:fx-bump .45s var(--fx-spring)}
+@keyframes fx-bump{0%{scale:1}40%{scale:1.22}100%{scale:1}}
+
+.steps i{transition:background-color .4s}
+.steps .on i{transform-origin:0 50%;animation:fx-grow .9s var(--fx-ease) both}
+@keyframes fx-grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.meter i{transition:background-color .4s var(--fx-ease)}
+.rq div i{transition:background-color .3s,scale .3s var(--fx-spring)}
+.rq div.ok i{animation:fx-pop .4s var(--fx-spring)}
+.search-b,.search-xl{transition:border-color .3s var(--fx-ease),box-shadow .4s var(--fx-ease)}
+.search-xl:focus-within{box-shadow:0 14px 34px rgba(0,0,0,.22),0 0 0 4px rgba(255,255,255,.28)}
+.search-b svg.i,.search-xl>svg.i{transition:scale .35s var(--fx-spring)}
+.search-b:focus-within svg.i,.search-xl:focus-within>svg.i{scale:1.15}
+select.sel{transition:color .2s}
+
+/* ------------------------------------------------------------------
+   6. Success / ticket / scanner details
+   ------------------------------------------------------------------ */
+.succ .ring{animation:fx-ring-pulse 2.6s ease-out infinite}
+@keyframes fx-ring-pulse{0%{box-shadow:0 0 0 0 rgba(22,163,74,.28)}70%,100%{box-shadow:0 0 0 22px rgba(22,163,74,0)}}
+.succ .disc svg.i path{stroke-dasharray:40;stroke-dashoffset:40;animation:fx-draw .6s .35s var(--fx-ease) forwards}
+@keyframes fx-draw{from{stroke-dashoffset:40}to{stroke-dashoffset:0}}
+.qr-box{transition:box-shadow .5s var(--fx-ease),translate .4s var(--fx-ease)}
+.qr-box:hover{translate:0 -3px;box-shadow:0 14px 30px -14px rgba(100,30,53,.5)}
+.qr-box i,.qr-box b{animation:fx-corner 2.8s var(--fx-soft) infinite alternate}
+@keyframes fx-corner{from{opacity:.55}to{opacity:1}}
+.id-pill{transition:background-color .3s,scale .3s var(--fx-spring)}
+.id-pill:hover{scale:1.05}
+.ticket{transition:box-shadow .5s var(--fx-ease)}
+.ticket:hover{box-shadow:0 18px 44px -18px rgba(37,37,37,.3)}
+.scanner .cn{animation:fx-corner 1.6s var(--fx-soft) infinite alternate}
+
+/* ------------------------------------------------------------------
+   7. Modal, toast
+   ------------------------------------------------------------------ */
+.ov.open{animation:fx-fade .3s var(--fx-ease)}
+.mdl{animation:fx-modal .5s var(--fx-spring)}
+@keyframes fx-modal{from{opacity:0;transform:translateY(26px) scale(.94)}to{opacity:1;transform:none}}
+.mdl>*{animation:fx-rise-sm .5s var(--fx-ease) backwards;animation-delay:calc(80ms + var(--n,0)*45ms)}
+.mdl>*:nth-child(1){--n:0}.mdl>*:nth-child(2){--n:1}.mdl>*:nth-child(3){--n:2}.mdl>*:nth-child(4){--n:3}
+.mdl>*:nth-child(5){--n:4}.mdl>*:nth-child(6){--n:5}.mdl>*:nth-child(n+7){--n:6}
+.fx-ghost{position:fixed;inset:0;z-index:99;display:flex;align-items:center;justify-content:center;padding:20px;
+  background:rgba(37,37,37,.55);backdrop-filter:blur(3px);pointer-events:none}
+.fx-ghost *{animation:none!important}
+
+.toast{position:relative;overflow:hidden;animation:fx-toast .55s var(--fx-spring)}
+@keyframes fx-toast{from{opacity:0;translate:32px 0;scale:.94}to{opacity:1;translate:0 0;scale:1}}
+.toast[style*="opacity: 0"]{translate:30px 0;scale:.96}
+.toast svg.i{animation:fx-pop .6s .15s var(--fx-spring) both}
+.toast::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:3px;background:rgba(255,255,255,.55);
+  transform-origin:0 50%;animation:fx-timer 3.2s linear forwards}
+@keyframes fx-timer{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+
+/* ------------------------------------------------------------------
+   8. Scroll / route reveal (classes are added by motion.js and removed
+      again once the animation ends, so the original styling is untouched)
+   ------------------------------------------------------------------ */
+.fx-rv{opacity:0;translate:0 28px}
+.fx-rv.fx-in{animation:fx-rise .85s var(--fx-ease) var(--d,0ms) both}
+@keyframes fx-rise{from{opacity:0;translate:0 28px}to{opacity:1;translate:0 0}}
+@keyframes fx-rise-sm{from{opacity:0;translate:0 10px}to{opacity:1;translate:0 0}}
+@keyframes fx-fade{from{opacity:0}to{opacity:1}}
+@keyframes fx-pop{0%{scale:.4;opacity:0}60%{scale:1.15;opacity:1}100%{scale:1}}
+
+/* ------------------------------------------------------------------
+   9. Focus ring (same ring as the original, now animated and visible on
+      the dark burgundy surfaces too)
+   ------------------------------------------------------------------ */
+a:focus-visible,button:focus-visible,[tabindex]:focus-visible,summary:focus-visible{
+  outline:3px solid rgba(100,30,53,.35);outline-offset:2px;animation:fx-focus .35s var(--fx-ease)}
+#app:focus-visible{outline:0;animation:none}
+.hero :focus-visible,.auth-l :focus-visible,.ftr :focus-visible,.banner-cta :focus-visible,.prof :focus-visible{outline-color:rgba(255,255,255,.75)}
+@keyframes fx-focus{from{outline-offset:7px;outline-color:transparent}to{outline-offset:2px}}
+/* focus rings must not be clipped by the sheen wrapper */
+.btn:focus-visible{outline-offset:3px}
+
+/* ------------------------------------------------------------------
+   10. Print + reduced motion
+   ------------------------------------------------------------------ */
+@media print{
+  .fx-bg,.fx-ghost{display:none!important}
+  .fx-rv{opacity:1!important;translate:none!important}
+  .hdr::after{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .fx-orb,.fx-sheen,.fx-par{animation:none!important}
+  .fx-cv{display:none}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;animation-delay:0ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .fx-rv{opacity:1!important;translate:none!important}
+  .dot,.act .d,.nt .ud,.st::before,.succ .ring,.empty .ring,.scanner .cn,.qr-box i,.qr-box b{animation:none!important}
+  .succ .disc svg.i path{stroke-dashoffset:0}
+}

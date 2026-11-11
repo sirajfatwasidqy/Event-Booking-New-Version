@@ -1,0 +1,21 @@
+/* fixes.css — Small corrections carried over from the original visual QA pass */
+.thumbs{display:flex;gap:12px;margin-top:12px;flex-wrap:wrap}
+.thumbs button{width:112px;height:78px;border-radius:12px;overflow:hidden;border:2px solid transparent;background:#111;padding:0;transition:.15s}
+.thumbs button.on{border-color:var(--bur)}
+.thumbs img{width:100%;height:100%;object-fit:cover}
+.info-row .ed{width:42px;height:42px;border-radius:50%;background:var(--rose);color:var(--bur);display:grid;place-items:center;flex:none}
+.sess-li{display:flex;gap:14px;align-items:center;padding:14px 0}
+.qr-box svg.q{background:#fff}
+.sr:focus{position:fixed;left:12px;top:12px;width:auto;height:auto;clip:auto;background:#fff;color:var(--bur);padding:10px 16px;border-radius:12px;z-index:300;font-weight:700}
+/* fixes from visual QA */
+.brand{flex:none}.brand span{white-space:nowrap}
+.logo-pill{display:block;width:max-content}
+.search-xl>svg{color:var(--bur)}
+.search-xl .round-btn svg{color:#fff}
+.ev-img{position:relative;padding:0}
+.ev-img img,.ev-img.wide img{position:absolute;inset:14px;width:calc(100% - 28px);height:calc(100% - 28px);max-width:none;max-height:none;object-fit:contain}
+.ev-img.wide{padding:0}
+.ev-img.wide img{inset:12px;width:calc(100% - 24px);height:calc(100% - 24px)}
+.search-b .round-btn svg{color:#fff}
+.menu-list .tg{width:54px;height:30px;padding:0;display:block;flex:none}
+.acts.col{flex-direction:column}.acts.col .btn{flex:none;width:100%;min-width:0}

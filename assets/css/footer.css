@@ -1,0 +1,13 @@
+/* footer.css — Site footer */
+/* footer */
+.ftr{background:var(--bur);color:#fff;margin-top:auto}
+.ftr .container{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:40px;padding-top:48px;padding-bottom:40px}
+.ftr .logo-pill{background:#fff;border-radius:12px;padding:6px 12px;width:max-content;margin-bottom:16px}
+.ftr .logo-pill img{width:76px}
+.ftr .tag{font-size:18px;font-weight:700;font-style:italic}
+.ftr h4{font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.7;margin-bottom:14px}
+.ftr ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.ftr a:hover{text-decoration:underline}
+.ftr .copy{border-top:1px solid rgba(255,255,255,.16);padding:18px 0;font-size:13px;opacity:.75}
+.ftr .copy .container{display:flex;justify-content:space-between;padding-top:0;padding-bottom:0;gap:20px;grid-template-columns:none}
+.demo-btn{opacity:.9;text-decoration:underline;font-size:13px}

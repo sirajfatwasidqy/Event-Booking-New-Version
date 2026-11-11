@@ -1,0 +1,34 @@
+/* buttons.css — Buttons, chips, status badges, eyebrow */
+/* ---------- buttons / chips ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;height:48px;padding:0 24px;border-radius:var(--r-btn);font-weight:700;font-size:15px;transition:.15s;white-space:nowrap}
+.btn svg.i{width:19px;height:19px}
+.btn-p{background:var(--bur);color:#fff}
+.btn-p:hover{background:var(--bur-d);box-shadow:0 8px 18px rgba(100,30,53,.28)}
+.btn-o{background:#fff;color:var(--bur);box-shadow:inset 0 0 0 1.5px var(--bur)}
+.btn-o:hover{background:var(--rose)}
+.btn-s{background:var(--rose-2);color:var(--bur)}
+.btn-s:hover{background:#e7dade}
+.btn-w{background:#fff;color:var(--bur)}
+.btn-w:hover{box-shadow:0 8px 18px rgba(0,0,0,.2)}
+.btn-d{background:#fff;color:var(--bad);box-shadow:inset 0 0 0 1.5px rgba(180,35,60,.5)}
+.btn-d:hover{background:var(--bad-bg)}
+.btn-g{background:var(--ok);color:#fff}
+.btn:focus-visible,.chip-f:focus-visible,.icon-btn:focus-visible,.nav a:focus-visible,.card-link:focus-visible,.tab:focus-visible{outline:3px solid rgba(100,30,53,.35);outline-offset:2px}
+.btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
+.btn-sm{height:38px;padding:0 16px;font-size:13.5px;border-radius:12px}
+.btn-lg{height:54px;font-size:16px;padding:0 30px}
+.btn-block{width:100%}
+.spin{width:18px;height:18px;border-radius:50%;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;animation:sp .7s linear infinite}
+.btn-o .spin,.spin.dark{border-color:rgba(100,30,53,.25);border-top-color:var(--bur)}
+@keyframes sp{to{transform:rotate(360deg)}}
+.chip{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 13px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px;font-weight:600;color:var(--bur)}
+.chip svg.i{width:15px;height:15px}
+.chip-f{display:inline-flex;align-items:center;height:42px;padding:0 22px;border-radius:999px;background:#fff;border:1px solid var(--line);font-weight:600;font-size:14.5px;transition:.15s}
+.chip-f:hover{border-color:var(--bur)}
+.chip-f.on{background:var(--bur);border-color:var(--bur);color:#fff}
+.st{display:inline-flex;align-items:center;gap:7px;height:28px;padding:0 13px;border-radius:999px;font-size:12.5px;font-weight:700;background:var(--ok-bg);color:var(--ok)}
+.st::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.st.solid{background:var(--ok);color:#fff}
+.st.bur{background:rgba(100,30,53,.1);color:var(--bur)}
+.st.bad{background:var(--bad-bg);color:var(--bad)}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--bur)}

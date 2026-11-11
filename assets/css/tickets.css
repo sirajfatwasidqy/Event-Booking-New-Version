@@ -1,0 +1,46 @@
+/* tickets.css — Ticket, QR box, activity lists, ticket list cards */
+/* ticket */
+.ticket{background:#fff;border-radius:26px;border:1px solid var(--line);box-shadow:var(--sh);overflow:hidden}
+.t-top{background:var(--bur);color:#fff;padding:26px 32px;position:relative;overflow:hidden;display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.t-top::after{content:"";position:absolute;right:-50px;top:-70px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.07)}
+.t-top small{display:block;font-size:11.5px;letter-spacing:.16em;opacity:.8;font-weight:700}
+.t-top h2{font-size:30px;font-weight:800;margin-top:4px}
+.t-top .st{position:relative;z-index:1}
+.t-body{padding:28px 32px}
+.fields{display:grid;grid-template-columns:repeat(2,1fr);gap:0 28px}
+.fields .f{padding:14px 0;border-bottom:1.5px solid var(--chr)}
+.fields .f:nth-last-child(-n+2){border-bottom:0}
+.fields small{display:block;font-size:12.5px;font-weight:600;color:#6a5a60}
+.fields b{font-size:17px;font-weight:700}
+.perf{position:relative;border-top:2px dashed var(--line);margin:0 0}
+.perf::before,.perf::after{content:"";position:absolute;top:-14px;width:26px;height:26px;border-radius:50%;background:var(--rose);border:1px solid var(--line)}
+.perf::before{left:-14px}.perf::after{right:-14px}
+.qr-row{display:flex;gap:28px;align-items:center;padding:28px 32px}
+.qr-box{position:relative;padding:14px;border-radius:20px;background:#fff;border:1px solid var(--line);flex:none}
+.qr-box svg.q{display:block;width:176px;height:176px}
+.qr-box i,.qr-box b{position:absolute;width:26px;height:26px;border:3.5px solid var(--bur)}
+.qr-box i:nth-of-type(1){left:6px;top:6px;border-right:0;border-bottom:0;border-radius:12px 0 0 0}
+.qr-box i:nth-of-type(2){right:6px;top:6px;border-left:0;border-bottom:0;border-radius:0 12px 0 0}
+.qr-box b:nth-of-type(1){left:6px;bottom:6px;border-right:0;border-top:0;border-radius:0 0 0 12px}
+.qr-box b:nth-of-type(2){right:6px;bottom:6px;border-left:0;border-top:0;border-radius:0 0 12px 0}
+.qr-row h3{font-size:20px;font-weight:800;margin-bottom:6px}
+.qr-row p{color:#51464a;margin-bottom:14px}
+.id-pill{display:inline-block;background:var(--rose-2);color:var(--bur);font-weight:800;border-radius:999px;padding:8px 18px;font-size:14px;letter-spacing:.02em}
+.acts{display:flex;gap:14px;flex-wrap:wrap}
+.acts .btn{flex:1;min-width:190px}
+.addr{display:flex;gap:10px;font-size:14px;color:#51464a;margin-top:10px}
+.addr svg.i{color:var(--bur);margin-top:2px}
+
+/* lists */
+.act-list{padding:8px 24px}
+.act{display:flex;gap:14px;padding:16px 0;align-items:flex-start}
+.act+.act{border-top:1px solid #f0e7ea}
+.act .d{width:10px;height:10px;border-radius:50%;background:var(--bur);margin-top:7px;flex:none}
+.act b{display:block;font-size:15px}
+.act small{color:#6a5a60}
+.stat{display:flex;align-items:center;justify-content:space-between;padding:22px 28px}
+.stat .n{font-size:44px;font-weight:800;line-height:1}
+.stat small{display:block;color:#6a5a60;font-weight:600;margin-bottom:4px}
+.tk{display:grid;grid-template-columns:150px 1fr auto;gap:24px;align-items:center;padding:18px 28px 18px 18px;transition:.2s}
+.tk:hover{box-shadow:var(--sh)}
+.tk img{border-radius:12px;width:150px;height:auto}

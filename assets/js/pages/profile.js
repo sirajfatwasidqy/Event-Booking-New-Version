@@ -1,0 +1,11 @@
+/* profile.js — Profile with inline editing */
+'use strict';
+
+V.profile = () => {
+  const u = me(); POST = null;
+  const row = (k, icon, lab, val) => `<div class="info-row"><span class="ic">${ic(icon)}</span><div class="grow"><small>${lab}</small>${EDIT.has(k) ? `<div class="edit-form"><div class="inp" id="e-${k}-w" style="margin-top:6px"><input id="e-${k}" value="${esc(val)}" aria-label="${lab}" style="padding-left:12px"></div></div><div class="hint" id="e-${k}-h"></div>` : `<b>${esc(val)}</b>`}</div>${EDIT.has(k) ? '' : `<button class="ed" data-act="edit" data-k="${k}" aria-label="Edit ${lab}">${ic('pen')}</button>`}</div>`;
+  return `<div class="container page"><div class="acc">${side('/profile')}<div><div class="prof"><span class="avatar">${esc(initials(u.name))}</span><div><h2>${esc(u.name)}</h2><small>Customer ID · ${u.id}</small><button class="btn btn-w btn-sm" data-act="edit" data-k="all">${ic('pen')}Edit Profile</button></div></div>
+  <div class="card card-pad" style="margin-top:24px"><div class="between row"><h2 style="font-size:20px">Personal Information</h2>${EDIT.size ? `<div class="row"><button class="btn btn-o btn-sm" data-act="cancelEdit">Cancel</button><button class="btn btn-p btn-sm" data-act="saveEdit">${ic('check')}Save</button></div>` : ''}</div>${row('name', 'user', 'Full Name', u.name)}${row('email', 'mail', 'Email Address', u.email)}${row('phone', 'phone', 'Phone Number', u.phone)}</div>
+  <div class="card card-pad" style="margin-top:24px"><h2 style="font-size:20px">Account</h2><div class="menu-list"><a href="${U('/privacy')}"><span class="ic">${ic('shield')}</span><span><b>Privacy & Security</b><small>Change Password, login alerts and active sessions</small></span><span class="go">${ic('chev')}</span></a><a href="${U('/notifications')}"><span class="ic">${ic('bell')}</span><span><b>Notification</b><small>${unread() ? plural(unread(), 'unread notification') : 'Bookings, events and reminders'}</small></span><span class="go">${ic('chev')}</span></a><a href="${U('/bookings')}"><span class="ic">${ic('box')}</span><span><b>Booking History</b><small>${plural(S.bookings.length, 'booking')}</small></span><span class="go">${ic('chev')}</span></a></div></div>
+  <button class="btn btn-d btn-lg btn-block" data-act="logout" style="margin-top:24px">${ic('out')}Log Out</button></div></div></div>`;
+};

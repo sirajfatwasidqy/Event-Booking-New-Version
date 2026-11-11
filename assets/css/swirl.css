@@ -1,0 +1,68 @@
+/* swirl.css — styles of the "Liquid Chrome / Swirl" background (from the supplied Background ZIP style.css).
+   Only the background rules were taken over (the demo page's global reset, body, main, h1, p and button rules were not),
+   and every selector is scoped under .swirl-bg. The layer lives inside the Home hero: absolute, behind the content, never clickable. */
+.swirl-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  background: #0a0a0a;
+  pointer-events: none;
+}
+
+.swirl-bg svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scale(1.15);
+}
+
+.swirl-metal {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.swirl-metal-one   { animation: swirlLiquidOne 9s ease-in-out infinite alternate; }
+.swirl-metal-two   { animation: swirlLiquidTwo 6s ease-in-out infinite alternate; }
+.swirl-metal-three { animation: swirlLiquidThree 8s ease-in-out infinite alternate; }
+
+.swirl-bg.is-paused .swirl-metal { animation-play-state: paused; }
+
+@keyframes swirlLiquidOne {
+  from { transform: translate(-50px, -30px) rotate(-5deg); }
+  to   { transform: translate(80px, 50px) rotate(8deg); }
+}
+@keyframes swirlLiquidTwo {
+  from { transform: translate(50px, 20px) scale(0.9); }
+  to   { transform: translate(-70px, -40px) scale(1.15); }
+}
+@keyframes swirlLiquidThree {
+  from { transform: translate(-30px, 60px) rotate(5deg); }
+  to   { transform: translate(60px, -60px) rotate(-8deg); }
+}
+
+/* legibility scrim (not part of the original effect): a soft dark gradient above the swirl and below the text, so the white hero copy
+   stays readable over the bright chrome bands. It does not change the swirl's colours or motion; delete this block to see the raw effect. */
+.hero > .swirl-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(30,8,20,.80) 0%, rgba(30,8,20,.66) 36%, rgba(30,8,20,.20) 56%, rgba(30,8,20,0) 70%);
+  pointer-events: none;
+}
+@media (max-width: 1100px) {
+  .hero > .swirl-bg::after { background: linear-gradient(180deg, rgba(30,8,20,.74) 0%, rgba(30,8,20,.62) 60%, rgba(30,8,20,.42) 100%); }
+}
+
+/* the hero content always sits above the background (the rule already exists in home.css; repeated here so the layer order is explicit) */
+.hero > .swirl-bg + .container { position: relative; z-index: 1; }
+
+@media (max-width: 600px) {
+  .swirl-bg svg { transform: scale(1.8); }
+  .swirl-bg svg { shape-rendering: geometricPrecision; overflow: visible; }
+  .swirl-metal { vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .swirl-metal { animation: none !important; }
+}

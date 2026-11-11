@@ -1,0 +1,77 @@
+/* =====================================================================
+   decor.css — decorative SVG layer for Event Booking (PT Duta Abadi Primantara)
+
+   Purely visual. Every rule below draws a pseudo-element (::before / ::after)
+   behind the existing content; no markup, text, script or layout is changed.
+   • All decorations are pointer-events:none and sit below the content (z-index:-1 inside an isolated or root context).
+   • Light SVGs go on the rose page background, dark SVGs on burgundy surfaces.
+   • The Home hero (Swirl background) is deliberately left untouched.
+   • Hidden for prefers-reduced-motion and for print.
+   Assets: assets/img/decor/*.svg (animated SVG, SMIL)
+   ===================================================================== */
+
+:root{
+  --decor-aurora-light:url("../img/decor/aurora-light.svg");
+  --decor-aurora-dark:url("../img/decor/aurora-dark.svg");
+  --decor-div-b:url("../img/decor/divider-b-light.svg");
+  --decor-footer:url("../img/decor/footer-dark.svg");
+  --decor-shimmer-light:url("../img/decor/shimmer-light.svg");
+  --decor-shimmer-dark:url("../img/decor/shimmer-dark.svg");
+  --decor-stat:url("../img/decor/stat-glow-light.svg");
+}
+
+/* ---- 1. Page canvas: aurora at the top, flowing wave above the footer ---- */
+#app{position:relative}
+#app::before,#app::after{content:"";position:absolute;left:0;right:0;z-index:-1;pointer-events:none;background-repeat:no-repeat}
+/* both bands keep the SVG's own aspect ratio so its soft fade-out is never cropped into a hard edge */
+#app::before{top:0;aspect-ratio:1200/340;background-image:var(--decor-aurora-light);background-size:100% 100%;opacity:.6}
+#app::after{bottom:0;aspect-ratio:1200/130;background-image:var(--decor-div-b);background-size:100% 100%;transform:scaleY(-1);opacity:.8}
+
+/* Home keeps its Swirl hero untouched and gets no top aurora; the auth screens are split panels that cover the canvas */
+body[data-page="home"] #app::before,
+body[data-page="login"] #app::before,body[data-page="register"] #app::before{display:none}
+body[data-page="login"] #app::after,body[data-page="register"] #app::after{display:none}
+
+/* ---- 2. Section / page headings: shimmer accent line ---- */
+.sec-h,.page-h{position:relative}
+.sec-h::after,.page-h::after{content:"";position:absolute;left:0;right:0;bottom:-14px;height:14px;pointer-events:none;
+  background:var(--decor-shimmer-light) center/100% 100% no-repeat;opacity:.9}
+.sec-h::after{bottom:-12px}
+
+/* ---- 3. Auth: aurora on the rose panel (the burgundy panel keeps its own motion) ---- */
+.auth-r{position:relative;isolation:isolate;overflow:hidden}
+.auth-r::before{content:"";position:absolute;left:0;right:0;top:0;aspect-ratio:1200/340;z-index:-1;pointer-events:none;
+  background:var(--decor-aurora-light) center top/100% 100% no-repeat;opacity:.6}
+
+/* ---- 4. Events banner (burgundy): dark aurora behind the copy ---- */
+.banner-cta{isolation:isolate}
+.banner-cta::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:var(--decor-aurora-dark) center/cover no-repeat;opacity:.9}
+
+/* ---- 5. Ticket header (burgundy): shimmer along the lower edge ---- */
+.t-top::before{content:"";position:absolute;left:0;right:0;bottom:0;height:14px;pointer-events:none;
+  background:var(--decor-shimmer-dark) center/100% 100% no-repeat}
+
+/* ---- 6. Stat cards (Ticket / Booking History): soft pulsing halo ---- */
+/* the Ticket page's stat card carries an inline position:static, so it is skipped here to keep the halo anchored to its own card */
+.stat:not([style*="position"]){position:relative}
+.stat:not([style*="position"])::before{content:"";position:absolute;inset:-24px -12px;z-index:-1;pointer-events:none;
+  background:var(--decor-stat) center/100% 100% no-repeat}
+
+/* ---- 7. Footer (burgundy): dark footer artwork + shimmer above the copyright bar ---- */
+.ftr{position:relative;isolation:isolate;overflow:hidden}
+.ftr::before{content:"";position:absolute;left:0;right:0;bottom:0;aspect-ratio:1200/300;z-index:-1;pointer-events:none;
+  background:var(--decor-footer) center bottom/100% 100% no-repeat;opacity:.85}
+.ftr .copy{position:relative}
+.ftr .copy::before{content:"";position:absolute;left:0;right:0;top:-8px;height:14px;pointer-events:none;
+  background:var(--decor-shimmer-dark) center/100% 100% no-repeat}
+
+/* ---- 8. Motion preferences + print ---- */
+@media (prefers-reduced-motion:reduce){
+  #app::before,#app::after,.sec-h::after,.page-h::after,.auth-r::before,
+  .banner-cta::before,.t-top::before,.stat:not([style*="position"])::before,.ftr::before,.ftr .copy::before{display:none!important}
+}
+@media print{
+  #app::before,#app::after,.sec-h::after,.page-h::after,.auth-r::before,
+  .banner-cta::before,.t-top::before,.stat:not([style*="position"])::before,.ftr::before,.ftr .copy::before{display:none!important}
+}
