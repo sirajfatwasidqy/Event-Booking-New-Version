@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Event Booking — PT Duta Abadi Primantara</title>
+<meta name="theme-color" content="#641E35">
+<link rel="icon" href="assets/img/dap-logo.png">
+<meta http-equiv="refresh" content="0; url=home.html">
+</head>
+<body>
+<p><a href="home.html">Open Event Booking</a></p>
+<script src="assets/js/core/routes.js"></script>
+<script>
+/* entry point: opens the Home page. Old single-page links such as index.html#/events?q=expo still work. */
+location.replace(U(location.hash.slice(1) || '/home'));
+</script>
+</body>
+</html>
